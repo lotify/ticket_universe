@@ -7,5 +7,8 @@
 # Setuptools dist folder
 /dist/
 
+# Build folder
+/build/
+
 # Python egg metadata
 /*.egg-info/
