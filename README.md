@@ -2,7 +2,7 @@
 A toolset to generate a universe of unique ticket codes.
 
 ## Installation
-The ticket universe can be installed via pip: `pip install ticket-universe'
+The ticket universe can be installed via pip: `pip install ticket-universe`
 
 ## Examples
 ```python
