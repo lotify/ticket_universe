@@ -1,4 +1,7 @@
 # Ticket Universe
+
+[![CircleCI](https://circleci.com/gh/lotify/ticket_universe/tree/master.svg?style=svg)](https://circleci.com/gh/lotify/ticket_universe/tree/master)
+
 A command line interface and library to generate a universe of unique ticket codes in Python 3.x.
 
 ## Installation
