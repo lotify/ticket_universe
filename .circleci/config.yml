@@ -36,7 +36,8 @@ jobs:
           command: |
             pipenv run pytest \
               --junitxml=${TEST_REPORTS}/pytest/results.xml \
-              --cov ticket_universe --cov-report xml:${TEST_REPORTS}/pytest/coverage.xml
+              --cov ticket_universe --cov-report xml:${TEST_REPORTS}/pytest/coverage.xml \
+              --cov-config .coveragerc
 
       - store_test_results:
           path: /tmp/test-reports
