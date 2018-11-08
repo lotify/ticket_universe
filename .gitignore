@@ -12,3 +12,7 @@
 
 # Python egg metadata
 /*.egg-info/
+
+# Coverage
+.coverage
+coverage.xml
