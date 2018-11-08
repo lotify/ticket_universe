@@ -17,10 +17,10 @@ jobs:
           name: install dependencies
           command: |
             pip install pipenv
-            pipenv install --system --dev --deploy
+            pipenv install --dev --deploy
 
       - run:
           name: run tests
           command: |
-            pytest
+            pipenv run pytest
 
