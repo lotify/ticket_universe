@@ -1,3 +1,5 @@
+from typing import Union
+
 from ticket_universe.errors import MissingCharset
 
 
@@ -19,8 +21,8 @@ class FixedPosition(Position):
 
 
 class RangedPosition(Position):
-    def __init__(self, _min: int, _max: int):
-        _range = [str(num) for num in range(_min, _max + 1)] if _min != _max else []
+    def __init__(self, _min: Union[str, int], _max: Union[str, int]):
+        _range = [str(num) for num in range(int(_min), int(_max) + 1)] if _min != _max else []
         Position.__init__(self, _range)
 
 
@@ -47,3 +49,10 @@ class AlphaPosition(Position):
             raise MissingCharset(charset)
 
         return charset_factory()
+
+
+def build_type(_type: str, args):
+    import sys
+    module = sys.modules[__name__]
+    position_type = getattr(module, _type.title() + 'Position')
+    return position_type(*args)

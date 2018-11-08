@@ -19,6 +19,8 @@ class Universe:
 
     def __len__(self) -> int:
         """ Calculates total size of the universe as a product of the size of each position """
+        if len(self.positions) == 0:
+            return 0
         return functools.reduce(operator.mul, map(len, self.positions))
 
     def generate(self) -> Generator[str, None, None]:

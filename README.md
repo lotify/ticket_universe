@@ -1,10 +1,28 @@
 # Ticket Universe
-A toolset to generate a universe of unique ticket codes in Python 3.x.
+A command line interface and library to generate a universe of unique ticket codes in Python 3.x.
 
 ## Installation
-The ticket universe can be installed via pip: `pip install ticket-universe`.
+Ticket Universe can be installed via pip:
 
-## Examples
+`pip install ticket-universe`
+
+## Usage
+Ticket Universe can be used as library and as command line interface.
+
+### Command line interface
+The ticket universe cli provides a means to generate a universe and write
+it to stdout or file.
+
+To generate a universe of ticket codes to standard out:
+
+`ticket-universe fixed:ltfy- numeric numeric numeric numeric`
+
+To write the same universe to a csv file:
+
+`ticket-universe fixed:ltfy- numeric numeric numeric numeric > out.csv`
+
+
+### Library
 ```python
 from ticket_universe.position import FixedPosition, AlphaPosition, NumericPosition, RangedPosition
 from ticket_universe.universe import Universe
@@ -17,7 +35,7 @@ standard_universe = Universe([
     NumericPosition()
 ])
 
-# ['ACME-A00', ..., 'ACME-Z99']
+# ['LTFY-A00', ..., 'LTFY-Z99']
 print([t for t in standard_universe])
 
 

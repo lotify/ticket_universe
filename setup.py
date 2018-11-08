@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='ticket_universe',
-    version='0.1.3',
+    version='0.2',
     description='Toolset to generate ticket universes',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -14,5 +14,6 @@ setuptools.setup(
     author_email='eelke@moddix.com',
     license='MIT',
     packages=setuptools.find_packages(),
+    scripts=['bin/ticket-universe'],
     zip_safe=False
 )
