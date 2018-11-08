@@ -1,8 +1,23 @@
+import sys
 import unittest
+import io
 
 from argparse import Namespace
+from contextlib import contextmanager
+
 from ticket_universe import cli
 from ticket_universe import position
+
+
+@contextmanager
+def capture(command, *args, **kwargs):
+    out, sys.stdout = sys.stdout, io.StringIO()
+    try:
+        command(*args, **kwargs)
+        sys.stdout.seek(0)
+        yield sys.stdout.read()
+    finally:
+        sys.stdout = out
 
 
 class CliTest(unittest.TestCase):
@@ -37,3 +52,8 @@ class CliTest(unittest.TestCase):
         uni = cli.universe_from_args(args)
         tickets = [t for t in uni]
         self.assertEqual(len(uni) - 4, len(tickets))
+
+    def test_main_function_prints_output(self):
+        args = Namespace(positions=['binary'], limit=None, offset=0)
+        with capture(cli.main, args) as output:
+            self.assertEqual("0\n1\n", output)

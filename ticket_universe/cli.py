@@ -30,11 +30,11 @@ def universe_from_args(args):
     )
 
 
-def main():
-    _universe = universe_from_args(arguments())
+def main(args: argparse.Namespace):
+    _universe = universe_from_args(args)
     for t in _universe:
         print(t)
 
 
 if __name__ == '__main__':
-    main()
+    main(arguments())

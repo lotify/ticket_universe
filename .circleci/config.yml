@@ -32,7 +32,7 @@ jobs:
             - ~/.cache
 
       - run:
-          name: run tests
+          name: Run tests
           command: |
             pipenv run pytest \
               --junitxml=${TEST_REPORTS}/pytest/results.xml \
