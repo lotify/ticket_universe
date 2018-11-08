@@ -31,5 +31,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            pipenv run pytest --cov ticket_universe --cov-report xml --cov-report=
+            pipenv run pytest --cov ticket_universe --cov-report xml:/tmp/test-results/results.xml
 
+      - store_test_results:
+          path: /tmp/test-results
