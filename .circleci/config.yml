@@ -10,6 +10,9 @@ jobs:
       
     working_directory: ~/repo
 
+    environment:
+      TEST_REPORTS: /tmp/test-reports
+
     steps:
       - checkout
 
@@ -31,10 +34,12 @@ jobs:
       - run:
           name: run tests
           command: |
-            pipenv run pytest --cov ticket_universe --cov-report xml:/tmp/test-reports/pytest/coverage.xml
+            pipenv run pytest \
+              --junitxml=${TEST_REPORTS}/pytest/results.xml \
+              --cov ticket_universe --cov-report xml:${TEST_REPORTS}/pytest/coverage.xml
 
       - store_test_results:
-          path: /tmp/test-reports
+          path: ${TEST_REPORTS}
 
       - store_artifacts:
-          path: /tmp/test-reports
+          path: ${TEST_REPORTS}
