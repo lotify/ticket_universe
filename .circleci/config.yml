@@ -13,11 +13,20 @@ jobs:
     steps:
       - checkout
 
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "Pipfile.lock" }}
+            - cache-
+
       - run:
-          name: install dependencies
-          command: |
-            pip install pipenv
-            pipenv install --dev --deploy
+          name: Install dependencies
+          command: pipenv sync --dev
+
+      - save_cache:
+          key: cache-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ~/.local
+            - ~/.cache
 
       - run:
           name: run tests
