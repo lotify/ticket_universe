@@ -39,7 +39,7 @@ jobs:
               --cov ticket_universe --cov-report xml:${TEST_REPORTS}/pytest/coverage.xml
 
       - store_test_results:
-          path: ${TEST_REPORTS}
+          path: /tmp/test-reports
 
       - store_artifacts:
-          path: ${TEST_REPORTS}
+          path: /tmp/test-reports
