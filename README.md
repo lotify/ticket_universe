@@ -14,15 +14,23 @@ Ticket Universe can be used as library and as command line interface.
 
 ### Command line interface
 The ticket universe cli provides a means to generate a universe and write
-it to stdout or file.
+it to stdout.
 
-To generate a universe of ticket codes to standard out:
+```
+usage: ticket-universe [-h] [--offset OFFSET] [--limit LIMIT]
+                       [POSITION [POSITION ...]]
 
-`ticket-universe fixed:ltfy- numeric numeric numeric numeric`
+example: ticket-universe fixed:LTFY- alpha numeric numeric numeric
 
-To write the same universe to a csv file:
+positional arguments:
+  POSITION         alpha | alpha:safe_latin | numeric | range:min:max |
+                   fixed:{} | binary
 
-`ticket-universe fixed:ltfy- numeric numeric numeric numeric > out.csv`
+optional arguments:
+  -h, --help       show this help message and exit
+  --offset OFFSET
+  --limit LIMIT
+```
 
 
 ### Library

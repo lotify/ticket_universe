@@ -1,45 +1,11 @@
-import sys
 import unittest
-import io
+import subprocess
 
 from argparse import Namespace
-from contextlib import contextmanager
-
 from ticket_universe import cli
-from ticket_universe import position
-
-
-@contextmanager
-def capture(command, *args, **kwargs):
-    out, sys.stdout = sys.stdout, io.StringIO()
-    try:
-        command(*args, **kwargs)
-        sys.stdout.seek(0)
-        yield sys.stdout.read()
-    finally:
-        sys.stdout = out
 
 
 class CliTest(unittest.TestCase):
-
-    def test_ranged_position_arguments_parse_correctly(self):
-        ranged_position = cli.position_from_arg('ranged:0:255')
-        self.assertIsInstance(ranged_position, position.RangedPosition)
-        self.assertEqual(256, len(ranged_position))
-
-    def test_alpha_position_arguments_parse_correctly(self):
-        alpha_position = cli.position_from_arg('alpha')
-        self.assertIsInstance(alpha_position, position.AlphaPosition)
-        self.assertEqual(26, len(alpha_position))
-
-        alpha_latin_safe_position = cli.position_from_arg('alpha:safe_latin')
-        self.assertIsInstance(alpha_latin_safe_position, position.AlphaPosition)
-        self.assertEqual(23, len(alpha_latin_safe_position))
-
-    def test_fixed_position_arguments_parse_correctly(self):
-        fixed_position = cli.position_from_arg('fixed:fixed-element-')
-        self.assertIsInstance(fixed_position, position.FixedPosition)
-        self.assertEqual(1, len(fixed_position))
 
     def test_limiting_output(self):
         args = Namespace(positions=['binary', 'binary', 'binary'], limit=4, offset=0)
@@ -53,7 +19,15 @@ class CliTest(unittest.TestCase):
         tickets = [t for t in uni]
         self.assertEqual(len(uni) - 4, len(tickets))
 
-    def test_main_function_prints_output(self):
-        args = Namespace(positions=['binary'], limit=None, offset=0)
-        with capture(cli.main, args) as output:
-            self.assertEqual("0\n1\n", output)
+
+class BinaryTest(unittest.TestCase):
+
+    def test_without_args_exits_without_errors(self):
+        _exit = subprocess.check_call(['bin/ticket-universe'])
+        self.assertEqual(0, _exit)
+
+    def test_with_simple_args_exits_without_errors(self):
+        p = subprocess.Popen(['bin/ticket-universe', 'binary'], stdout=subprocess.PIPE)
+        output, err = p.communicate()
+        self.assertIsNone(err)
+        self.assertEqual(b'0\n1\n', output)

@@ -14,6 +14,13 @@ class Position:
     def __iter__(self):
         return iter(self.characters)
 
+    @classmethod
+    def from_string(cls, s) -> 'Position':
+        chunks = s.split(':')
+        _type = chunks[0]
+        _args = chunks[1:]
+        return build_type(_type, _args)
+
 
 class FixedPosition(Position):
     def __init__(self, character: str):

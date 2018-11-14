@@ -14,6 +14,25 @@ class PositionTest(unittest.TestCase):
     def test_position_iteration_equals_character_list(self):
         chars = list('123')
         self.assertEqual(chars, [char for char in Position(chars)])
+        
+    def test_building_position_from_string(self):
+        ranged_position = Position.from_string('ranged:0:255')
+        self.assertIsInstance(ranged_position, RangedPosition)
+        self.assertEqual(256, len(ranged_position))
+
+        alpha_position = Position.from_string('alpha')
+        self.assertIsInstance(alpha_position, AlphaPosition)
+        self.assertEqual(charsets.latin(), alpha_position.characters)
+
+        alpha_latin_safe_position = Position.from_string('alpha:safe_latin')
+        self.assertIsInstance(alpha_latin_safe_position, AlphaPosition)
+        self.assertEqual(charsets.safe_latin(), alpha_latin_safe_position.characters)
+
+        expected_fixed_value = 'fixed-element-'
+        fixed_position = Position.from_string('fixed:' + expected_fixed_value)
+        self.assertIsInstance(fixed_position, FixedPosition)
+        self.assertEqual(1, len(fixed_position))
+        self.assertEqual([expected_fixed_value], fixed_position.characters)
 
 
 class FixedPositionTest(unittest.TestCase):
