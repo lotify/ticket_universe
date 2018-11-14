@@ -1,12 +1,22 @@
-import os
+import io
+import sys
 import unittest
-import subprocess
 
 from argparse import Namespace
+from contextlib import contextmanager
+
 from ticket_universe import cli
 
 
-BIN_PATH = os.path.dirname(__file__) + "/../bin"
+@contextmanager
+def capture(command, *args, **kwargs):
+    out, sys.stdout = sys.stdout, io.StringIO()
+    try:
+        command(*args, **kwargs)
+        sys.stdout.seek(0)
+        yield sys.stdout.read()
+    finally:
+        sys.stdout = out
 
 
 class CliTest(unittest.TestCase):
@@ -22,15 +32,10 @@ class CliTest(unittest.TestCase):
         tickets = [t for t in uni]
         self.assertEqual(len(uni) - 4, len(tickets))
 
+    def test_calling_main_without_args_returns_help(self):
+        with capture(cli.main, cli.arguments([])) as output:
+            self.assertEqual('', output)
 
-class BinaryTest(unittest.TestCase):
-    def test_without_args_exits_without_errors(self):
-        _exit = subprocess.check_call([BIN_PATH + "/ticket-universe"])
-        self.assertEqual(0, _exit)
-
-    def test_with_simple_args_exits_without_errors(self):
-        output, err = subprocess.Popen(
-            [BIN_PATH + "/ticket-universe", "binary"], stdout=subprocess.PIPE
-        ).communicate()
-        self.assertIsNone(err)
-        self.assertEqual(b"0\n1\n", output)
+    def test_calling_main_with_args_prints_universe(self):
+        with capture(cli.main, Namespace(positions=["binary"], limit=None, offset=0)) as output:
+            self.assertEqual("0\n1\n", output)

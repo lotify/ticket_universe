@@ -1,6 +1,0 @@
-#!/usr/bin/env python
-
-from ticket_universe.cli import main
-from ticket_universe.cli import arguments
-
-main(arguments())

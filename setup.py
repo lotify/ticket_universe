@@ -14,6 +14,8 @@ setuptools.setup(
     author_email='eelke@moddix.com',
     license='MIT',
     packages=setuptools.find_packages(),
-    scripts=['bin/ticket-universe'],
+    entry_points={
+        'console_scripts': ['ticket-universe=ticket_universe.cli:main']
+    },
     zip_safe=False
 )
