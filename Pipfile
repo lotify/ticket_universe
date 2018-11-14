@@ -13,6 +13,7 @@ name = "pypi"
 
 pytest = "*"
 pytest-cov = "*"
+black = "*"
 
 
 [requires]

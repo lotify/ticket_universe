@@ -8,7 +8,6 @@ from ticket_universe.position import Position
 
 
 class Universe:
-
     def __init__(self, positions: [Position], limit=None, offset=None):
         self.positions = positions
         self.limit = limit or len(self)
@@ -25,11 +24,13 @@ class Universe:
 
     def generate(self) -> Generator[str, None, None]:
         """ Generates unique ticket codes within the universe """
-        characters_product = itertools.product(*self.positions)  # cartesian product of character groups
+        characters_product = itertools.product(
+            *self.positions
+        )  # cartesian product of character groups
 
         for i, characters in enumerate(characters_product):
             if i < self.offset:
                 continue
             if i >= self.limit:
                 return
-            yield ''.join(characters)
+            yield "".join(characters)
