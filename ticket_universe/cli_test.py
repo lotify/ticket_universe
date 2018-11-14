@@ -32,9 +32,11 @@ class CliTest(unittest.TestCase):
         tickets = [t for t in uni]
         self.assertEqual(len(uni) - 4, len(tickets))
 
-    def test_calling_main_without_args_returns_help(self):
-        with capture(cli.main, cli.arguments([])) as output:
-            self.assertEqual("", output)
+    def test_calling_main_without_args_prints_help(self):
+        with capture(cli.main, cli.arguments([])) as output, capture(
+            cli.print_help
+        ) as help_text:
+            self.assertEqual(help_text, output)
 
     def test_calling_main_with_args_prints_universe(self):
         with capture(
