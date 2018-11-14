@@ -34,8 +34,10 @@ class CliTest(unittest.TestCase):
 
     def test_calling_main_without_args_returns_help(self):
         with capture(cli.main, cli.arguments([])) as output:
-            self.assertEqual('', output)
+            self.assertEqual("", output)
 
     def test_calling_main_with_args_prints_universe(self):
-        with capture(cli.main, Namespace(positions=["binary"], limit=None, offset=0)) as output:
+        with capture(
+            cli.main, Namespace(positions=["binary"], limit=None, offset=0)
+        ) as output:
             self.assertEqual("0\n1\n", output)
