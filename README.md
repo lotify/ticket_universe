@@ -57,6 +57,6 @@ print('O' in tickets, 'I' in tickets, 'L' in tickets) # False, False, False
 
 
 # Limited, generate only a part of the universe
-limited_universe = Universe([RangedPosition(0, 999)], limit=10, offset=2)
-print(len([t for t in limited_universe])) #8
+limited_universe = Universe([RangedPosition(0, 999)])
+print(len([t for t in limited_universe.generate(limit=10, offset=2])) #8
 ```

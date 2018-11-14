@@ -22,24 +22,20 @@ def capture(command, *args, **kwargs):
 class CliTest(unittest.TestCase):
     def test_limiting_output(self):
         args = Namespace(positions=["binary", "binary", "binary"], limit=4, offset=0)
-        uni = cli.universe_from_args(args)
-        tickets = [t for t in uni]
-        self.assertEqual(len(uni) - 4, len(tickets))
+        with capture(cli.main, args) as output:
+            self.assertEqual(4, output.count('\n'))
 
     def test_offsetting_output(self):
         args = Namespace(positions=["binary", "binary", "binary"], limit=None, offset=4)
-        uni = cli.universe_from_args(args)
-        tickets = [t for t in uni]
-        self.assertEqual(len(uni) - 4, len(tickets))
+        with capture(cli.main, args) as output:
+            self.assertEqual(4, output.count('\n'))
 
     def test_calling_main_without_args_prints_help(self):
-        with capture(cli.main, cli.arguments([])) as output, capture(
-            cli.print_help
-        ) as help_text:
-            self.assertEqual(help_text, output)
+        args = cli.arguments([])
+        with capture(cli.main, args) as o, capture(cli.print_help) as h:
+            self.assertEqual(h, o)
 
     def test_calling_main_with_args_prints_universe(self):
-        with capture(
-            cli.main, Namespace(positions=["binary"], limit=None, offset=0)
-        ) as output:
+        args = Namespace(positions=["binary"], limit=None, offset=0)
+        with capture(cli.main, args) as output:
             self.assertEqual("0\n1\n", output)

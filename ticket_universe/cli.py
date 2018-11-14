@@ -25,20 +25,17 @@ def argument_parser():
 
 
 def universe_from_args(args):
-    return universe.Universe(
-        [Position.from_string(s) for s in args.positions],
-        limit=args.limit,
-        offset=args.offset,
-    )
+    return universe.Universe([Position.from_string(s) for s in args.positions])
 
 
 def main(args: argparse.Namespace = None):
-    _universe = universe_from_args(args or arguments())
+    _arguments = args or arguments()
+    _universe = universe_from_args(_arguments)
 
     if len(_universe) == 0:
         print_help()
 
-    for t in _universe:
+    for t in _universe.generate(_arguments.limit, _arguments.offset):
         print(t)
 
 
